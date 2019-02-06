@@ -140,7 +140,6 @@ class ProviderClient(OAuthClientCredentialsAuth):
         providers=None,
         start_time=None,
         end_time=None,
-        bbox=None,
         paging=True,
         rate_limit=0,
         **kwargs):
@@ -158,14 +157,6 @@ class ProviderClient(OAuthClientCredentialsAuth):
         :end_time: Filters for status changes where `event_time` occurs before the given time
                    Should be a datetime object or numeric representation of UNIX seconds
 
-        :bbox: Filters for status changes where `event_location` is within defined bounding-box.
-               The order is defined as: southwest longitude, southwest latitude, 
-               northeast longitude, northeast latitude (separated by commas).
-
-               e.g.
-
-               bbox=-122.4183,37.7758,-122.4120,37.7858
-
         :paging: True (default) to follow paging and request all available data.
                  False to request only the first page.
 
@@ -182,7 +173,7 @@ class ProviderClient(OAuthClientCredentialsAuth):
 
         # gather all the params together
         params = {
-            **dict(start_time=start_time, end_time=end_time, bbox=bbox),
+            **dict(start_time=start_time, end_time=end_time),
             **kwargs
         }
 
@@ -198,7 +189,6 @@ class ProviderClient(OAuthClientCredentialsAuth):
         vehicle_id=None,
         min_end_time=None,
         max_end_time=None,
-        bbox=None,
         paging=True,
         rate_limit=0,
         **kwargs):
@@ -219,14 +209,6 @@ class ProviderClient(OAuthClientCredentialsAuth):
 
         :max_end_time: Filters for trips where `end_time` occurs before the given time.
                        Should be a datetime object or numeric representation of UNIX seconds
-
-        :bbox: Filters for trips where and point within `route` is within defined bounding-box.
-               The order is defined as: southwest longitude, southwest latitude, 
-               northeast longitude, northeast latitude (separated by commas).
-
-               e.g.
-
-               bbox=-122.4183,37.7758,-122.4120,37.7858
 
         :paging: True (default) to follow paging and request all available data.
                  False to request only the first page.
@@ -253,7 +235,7 @@ class ProviderClient(OAuthClientCredentialsAuth):
 
         # gather all the params togethers
         params = { 
-            **dict(device_id=device_id, vehicle_id=vehicle_id, min_end_time=min_end_time, max_end_time=max_end_time, bbox=bbox),
+            **dict(device_id=device_id, vehicle_id=vehicle_id, min_end_time=min_end_time, max_end_time=max_end_time),
             **kwargs
         }
 
