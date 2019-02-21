@@ -15,11 +15,12 @@ class Provider():
     """
     A simple model for an entry in the Provider registry.
     """
-    def __init__(self, provider_name, provider_id, url, mds_api_url, **kwargs):
+    def __init__(self, provider_name, provider_id, url, mds_api_url, gbfs_api_url, **kwargs):
         self.provider_name = provider_name
         self.provider_id = provider_id if isinstance(provider_id, UUID) else UUID(provider_id)
         self.url = self._clean_url(url)
         self.mds_api_url = self._clean_url(mds_api_url)
+        self.gbfs_api_url = self._clean_url(gbfs_api_url)
 
         for k,v in kwargs.items():
             setattr(self, k, v)
@@ -31,8 +32,11 @@ class Provider():
         """
         Helper to return a normalized URL
         """
-        url = url.lower().rstrip("/")
-        return url if url.startswith("https://") else f"https://{url}"
+        if url:
+            url = url.lower().rstrip("/")
+            return url if url.startswith("https://") else f"https://{url}"
+        else
+            return ""
 
     def configure(self, config, use_id=False):
         """
