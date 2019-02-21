@@ -15,7 +15,7 @@ def insert_status_changes_from(source_table, dest_table=mds.STATUS_CHANGES, on_c
     conflict_update = """ON CONFLICT (provider_id, device_id, event_time) DO UPDATE SET
         event_type = cast(EXCLUDED.event_type as event_types),
         event_type_reason = cast(EXCLUDED.event_type_reason as event_type_reasons),
-        event_location = cast(EXCLUDED.event_location as json),
+        event_location = cast(EXCLUDED.event_location as jsonb),
         battery_pct = EXCLUDED.battery_pct,
         associated_trips = cast(EXCLUDED.associated_trips as uuid[])
     """
@@ -46,7 +46,7 @@ def insert_status_changes_from(source_table, dest_table=mds.STATUS_CHANGES, on_c
         cast(event_type as event_types),
         cast(event_type_reason as event_type_reasons),
         to_timestamp(event_time) at time zone 'UTC',
-        cast(event_location as json),
+        cast(event_location as jsonb),
         battery_pct,
         cast(associated_trips as uuid[])
     FROM "{source_table}"
@@ -61,7 +61,7 @@ def insert_trips_from(source_table, dest_table=mds.TRIPS, on_conflict_update=Fal
     conflict_update = """ON CONFLICT (provider_id, trip_id) DO UPDATE SET
         trip_duration = EXCLUDED.trip_duration,
         trip_distance = EXCLUDED.trip_distance,
-        route = cast(EXCLUDED.route as json),
+        route = cast(EXCLUDED.route as jsonb),
         accuracy = EXCLUDED.accuracy,
         start_time = EXCLUDED.start_time,
         end_time = EXCLUDED.end_time,
@@ -100,7 +100,7 @@ def insert_trips_from(source_table, dest_table=mds.TRIPS, on_conflict_update=Fal
         cast(trip_id as uuid),
         trip_duration,
         trip_distance,
-        cast(route as json),
+        cast(route as jsonb),
         accuracy,
         to_timestamp(start_time) at time zone 'UTC',
         to_timestamp(end_time) at time zone 'UTC',
